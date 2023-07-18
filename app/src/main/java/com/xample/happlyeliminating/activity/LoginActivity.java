@@ -31,13 +31,13 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                login();
+                login();    // 登录
             }
         });
         textViewRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                register();
+                register();     // 注册
             }
         });
 

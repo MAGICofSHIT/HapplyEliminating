@@ -36,13 +36,16 @@ public class MainActivity extends AppCompatActivity
             R.drawable.yellowcandy,
             R.drawable.redcandy,
     };
-    int widthOfBlock, noOfBlocks = 8, widthOfScreen;
-    ArrayList<ImageView> candy = new ArrayList<>();
-    int candyToBeDragged,candyToBeReplaced;
-    int notCandy = R.drawable.transparent;
-    Handler mHandler;
-    int interval = 200;
-    TextView scoreResult;
+    int widthOfBlock,   // 每个糖果图像视图的宽度（以像素为单位）
+        noOfBlocks = 8, // 游戏板中每行（或每列）的糖果块数量
+        widthOfScreen;  // 屏幕的宽度（以像素为单位）
+    ArrayList<ImageView> candy = new ArrayList<>();     // 存储糖果图像视图的ImageView对象列表
+    int candyToBeDragged,   // 被拖动的糖果的标识符（ImageView的ID）
+        candyToBeReplaced;  // 要替换的糖果的标识符（ImageView的ID）
+    int notCandy = R.drawable.transparent;  // 空白糖果的图像资源标识符
+    Handler mHandler;   // 用于在指定的时间间隔内执行重复的任务
+    int interval = 200; // 重复任务的时间间隔（以毫秒为单位）
+    TextView scoreResult;   // 显示分数的TextView对象
     int score = 0;
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -50,20 +53,25 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // 处理导航菜单项的点击事件
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         scoreResult = findViewById(R.id.score);
+
+        // 获取屏幕的显示度量信息并存储在displayMetrics中
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getRealMetrics(displayMetrics);
-        widthOfScreen = displayMetrics.widthPixels;
-        widthOfBlock = widthOfScreen / noOfBlocks;
+        widthOfScreen = displayMetrics.widthPixels;     // 屏幕宽度
+        widthOfBlock = widthOfScreen / noOfBlocks;      // 计算每个糖果块的宽度，确保每个糖果块在屏幕上均匀分布，并根据屏幕宽度适应不同尺寸的屏幕
+
         createBoard();
+
         for(final ImageView imageView : candy) {
             imageView.setOnTouchListener(new OnSwipeListener(this)
             {
                 @Override
-                public void onSwipeLeft() {
+                public void onSwipeLeft() {     // 检测到向左滑动的手势
                     super.onSwipeLeft();
 //                    Toast.makeText(MainActivity.this, "Left", Toast.LENGTH_SHORT).show();
                     candyToBeDragged = imageView.getId();
@@ -71,7 +79,7 @@ public class MainActivity extends AppCompatActivity
                     candyInterchange();
                 }
                 @Override
-                public void onSwipeRight() {
+                public void onSwipeRight() {    // 检测到向右滑动的手势
                     super.onSwipeRight();
 //                    Toast.makeText(MainActivity.this, "Right", Toast.LENGTH_SHORT).show();
                     candyToBeDragged = imageView.getId();
@@ -79,14 +87,14 @@ public class MainActivity extends AppCompatActivity
                     candyInterchange();
                 }
                 @Override
-                public void onSwipeTop() {
+                public void onSwipeTop() {      // 检测到向上滑动的手势
                     super.onSwipeTop();
                     candyToBeDragged = imageView.getId();
                     candyToBeReplaced = candyToBeDragged - noOfBlocks;
                     candyInterchange();
                 }
                 @Override
-                public void onSwipeBottom() {
+                public void onSwipeBottom() {   // 检测到向下滑动的手势
                     super.onSwipeBottom();
                     candyToBeDragged = imageView.getId();
                     candyToBeReplaced = candyToBeDragged + noOfBlocks;
@@ -262,7 +270,7 @@ public class MainActivity extends AppCompatActivity
             Intent in = new Intent(this, VolumeActivity.class);
             startActivity(in);
         } else if (id == R.id.nav_help) {
-            //帮助页面
+            // 帮助页面
             Intent intent = new Intent(this, HelpActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_about) {
