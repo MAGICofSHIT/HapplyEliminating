@@ -26,8 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     int[] candies = {
             R.drawable.bluecandy,
             R.drawable.greencandy,
@@ -219,27 +218,24 @@ public class MainActivity extends AppCompatActivity
         // 设置8x8的网格块数
         gridLayout.setRowCount(noOfBlocks);
         gridLayout.setColumnCount(noOfBlocks);
-        // 正方形布局
+        // 设置网络长度和宽度均与屏幕宽度相同，即正方形布局
         gridLayout.getLayoutParams().width = widthOfScreen;
         gridLayout.getLayoutParams().height = widthOfScreen;
-        for (int i = 0; i < noOfBlocks * noOfBlocks; i++) {
-            ImageView imageView = new ImageView(this);
 
-            imageView.setId(i);
-            imageView.setLayoutParams(new
-                    android.view.ViewGroup.LayoutParams(widthOfBlock,widthOfBlock));
-            // 最大的图像视图的高度和宽带
+        for (int i = 0; i < noOfBlocks * noOfBlocks; i++) {     // 遍历生成每一个网络块
+            ImageView imageView = new ImageView(this);
+            imageView.setId(i);     // 给每一个网络块设定ID
+            imageView.setLayoutParams(new android.view.ViewGroup.LayoutParams(widthOfBlock,widthOfBlock));  // 设置每个网格的布局参数
+
+            // 设定最大的图像视图的高度和宽度
             imageView.setMaxHeight(widthOfBlock);
             imageView.setMaxWidth(widthOfBlock);
-            // 产生一个介于0和candies.length的长度的随机索引
-            int randonCandy = (int) Math.floor(Math.random() * candies.length);
-            // 使用随机索引来随机设置图像资源
-            imageView.setImageResource(candies[randonCandy]);
-            // 将标记获取为整数，然后将其存储在整数中
-            imageView.setTag(candies[randonCandy]);
+
+            int randonCandy = (int) Math.floor(Math.random() * candies.length);     // 产生一个介于0和candies.length的长度的随机索引，即随机选取一种颜色的糖果的图像资源
+            imageView.setImageResource(candies[randonCandy]);   // 使用随机索引来随机设置糖果的图像资源
+            imageView.setTag(candies[randonCandy]);     // 将标记获取为整数，然后将其存储在整数中
             candy.add(imageView);
-            // 添加视图图像显示
-            gridLayout.addView(imageView);
+            gridLayout.addView(imageView);    // 添加视图图像显示
         }
     }
     @Override
@@ -267,8 +263,8 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_gallery) {
             // 设置
-            Intent in = new Intent(this, VolumeActivity.class);
-            startActivity(in);
+            Intent intent = new Intent(this, VolumeActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_help) {
             // 帮助页面
             Intent intent = new Intent(this, HelpActivity.class);
@@ -294,5 +290,4 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }
