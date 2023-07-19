@@ -187,7 +187,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 candy.get(i).setTag(candies[randomColor]);
             }
         }
-
     }
     Runnable repeatChecker = new Runnable() {
         @Override
