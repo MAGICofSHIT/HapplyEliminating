@@ -22,7 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="向日葵"
-            android:textColor="#FFB3FAE3" />
+            android:textColor="#FFB3FAE3">
+        </RadioButton>
 
         <RadioButton
             android:id="@+id/radioButton2"
@@ -45,8 +46,7 @@
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="248dp"
-        android:background="#33EEEEEE"
-        tools:ignore="UseSwitchCompatOrMaterialXml">
+        android:background="#33EEEEEE">
 
         <Switch
             android:id="@+id/switch1"
