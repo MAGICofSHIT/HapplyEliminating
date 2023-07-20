@@ -82,8 +82,7 @@ public class VolumeActivity extends AppCompatActivity {
         findViewById(R.id.button4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                am.setStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE,
-                        AudioManager.FLAG_SHOW_UI);
+                am.setStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
             }
         });
     }
@@ -112,7 +111,8 @@ public class VolumeActivity extends AppCompatActivity {
         }catch(Exception e){
             e.printStackTrace();//输出异常信息
         }
-    }private void play3(){
+    }
+    private void play3(){
         try{
             if (player1.isPlaying()) {
                 player1.pause();
