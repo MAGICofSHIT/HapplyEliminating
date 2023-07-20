@@ -37,7 +37,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     // 线程的Runnable接口类
-   class MyThread implements Runnable {
+    class MyThread implements Runnable {
 
         @Override
         public void run() {

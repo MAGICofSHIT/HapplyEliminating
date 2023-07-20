@@ -49,13 +49,12 @@ public class OnSwipeListener implements View.OnTouchListener {
         }
 
         @Override
-        public boolean onDown(MotionEvent e) {
-            return true;
-        }
+        public boolean onDown(MotionEvent e) {return true;}
     }
 
     public void onSwipeLeft(){}
     public void onSwipeRight(){}
     public void onSwipeTop(){}
     public void onSwipeBottom(){}
+
 }

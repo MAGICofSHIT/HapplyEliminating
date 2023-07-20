@@ -20,6 +20,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.xample.happlyeliminating.activity.AboutActivity;
 import com.xample.happlyeliminating.activity.HelpActivity;
+import com.xample.happlyeliminating.activity.SplashActivity;
 import com.xample.happlyeliminating.activity.VolumeActivity;
 
 import java.util.ArrayList;
@@ -35,15 +36,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             R.drawable.yellowcandy,
             R.drawable.redcandy,
     };
-    int widthOfBlock,   // 每个糖果图像视图的宽度（以像素为单位）
+    int     widthOfBlock,   // 每个糖果图像视图的宽度（以像素为单位）
             noOfBlocks = 8, // 游戏板中每行（或每列）的糖果块数量
             widthOfScreen;  // 屏幕的宽度（以像素为单位）
     ArrayList<ImageView> candy = new ArrayList<>();     // 存储糖果图像视图的ImageView对象列表
-    int candyToBeDragged,   // 被拖动的糖果的标识符（ImageView的ID）
+    int     candyToBeDragged,   // 被拖动的糖果的标识符（ImageView的ID）
             candyToBeReplaced;  // 要替换的糖果的标识符（ImageView的ID）
+    int flag = 0;
     int notCandy = R.drawable.transparent;  // 空白糖果的图像资源标识符
     Handler mHandler;   // 用于在指定的时间间隔内执行重复的任务
-    int interval = 200; // 重复任务的时间间隔（以毫秒为单位）
+    int interval =100; // 重复任务的时间间隔（以毫秒为单位）
     TextView scoreResult;   // 显示分数的TextView对象
     int score = 0;
 
@@ -76,6 +78,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     candyToBeDragged = imageView.getId();
                     candyToBeReplaced = candyToBeDragged - 1;
                     candyInterchange();
+                    checkRawForThree();
+                    checkColumnForThree();
+                    Thread t = new Thread(new MyThread());
+                    t.start();
                 }
 
                 @Override
@@ -85,6 +91,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     candyToBeDragged = imageView.getId();
                     candyToBeReplaced = candyToBeDragged + 1;
                     candyInterchange();
+                    checkRawForThree();
+                    checkColumnForThree();
+                    Thread t = new Thread(new MyThread());
+                    t.start();
                 }
 
                 @Override
@@ -93,6 +103,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     candyToBeDragged = imageView.getId();
                     candyToBeReplaced = candyToBeDragged - noOfBlocks;
                     candyInterchange();
+                    checkRawForThree();
+                    checkColumnForThree();
+                    Thread t = new Thread(new MyThread());
+                    t.start();
                 }
 
                 @Override
@@ -101,6 +115,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     candyToBeDragged = imageView.getId();
                     candyToBeReplaced = candyToBeDragged + noOfBlocks;
                     candyInterchange();
+                    checkRawForThree();
+                    checkColumnForThree();
+                    Thread t = new Thread(new MyThread());
+                    t.start();
                 }
             });
         }
@@ -141,10 +159,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     x--;
                     candy.get(x).setImageResource(notCandy);
                     candy.get(x).setTag(notCandy);
+                    flag = 1;
                 }
             }
         }
-        moveDownCandies();
     }
 
     private void checkColumnForThree() {
@@ -165,9 +183,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 x = x + noOfBlocks;
                 candy.get(x).setImageResource(notCandy);
                 candy.get(x).setTag(notCandy);
+                flag = 1;
             }
         }
-        moveDownCandies();
     }
 
     private void moveDownCandies() {
@@ -288,13 +306,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -329,5 +340,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    class MyThread implements Runnable {
+
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(100);
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if(flag==0) {candyInterchange();}
+            flag = 0;
+        }
     }
 }
