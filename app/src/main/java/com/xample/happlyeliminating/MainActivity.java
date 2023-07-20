@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void checkColumnForThree() {
-        for (int i = 0; i < 47; i++) {
+        for (int i = 0; i < 48; i++) {
             int chosedCandy = (int) candy.get(i).getTag();
             boolean isBlank = (int)candy.get(i).getTag() == notCandy;
             int x = i;
@@ -189,6 +189,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
     }
+
     Runnable repeatChecker = new Runnable() {
         @Override
         public void run() {
@@ -201,9 +202,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     };
+
     void startRepeat() {
         repeatChecker.run();
     }
+
     private void candyInterchange() {
         int background = (int) candy.get(candyToBeReplaced).getTag();
         int background1 = (int) candy.get(candyToBeDragged).getTag();
@@ -238,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             gridLayout.addView(imageView);    // 添加视图图像显示
         }
     }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

@@ -25,8 +25,8 @@ public class SplashActivity extends AppCompatActivity {
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
                     case MSG1:
-                        Intent in = new Intent(SplashActivity.this,LoginActivity.class);
-                        startActivity(in);
+                        Intent intent = new Intent(SplashActivity.this,LoginActivity.class);
+                        startActivity(intent);
                 }
             }
         };
@@ -43,7 +43,8 @@ public class SplashActivity extends AppCompatActivity {
         public void run() {
             try {
                 Thread.sleep(3000);
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e) {
                 e.printStackTrace();
             }
             myHandler.sendEmptyMessage(MSG1);

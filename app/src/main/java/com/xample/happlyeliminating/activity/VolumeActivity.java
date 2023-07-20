@@ -25,6 +25,7 @@ public class VolumeActivity extends AppCompatActivity {
 
         // 获取系统级服务
         am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
         player1=MediaPlayer.create(VolumeActivity.this, R.raw.b);
         player2=MediaPlayer.create(VolumeActivity.this, R.raw.a);
         player3=MediaPlayer.create(VolumeActivity.this, R.raw.abc);
@@ -47,6 +48,7 @@ public class VolumeActivity extends AppCompatActivity {
         });
 
         aSwitch = findViewById(R.id.switch1);
+
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -63,6 +65,7 @@ public class VolumeActivity extends AppCompatActivity {
                             break;
                     }
                 }
+
                 else {
                     switch (id) {
                         case 0:
@@ -79,14 +82,15 @@ public class VolumeActivity extends AppCompatActivity {
 
             }
         });
+
         findViewById(R.id.button4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                am.setStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE,
-                        AudioManager.FLAG_SHOW_UI);
+                am.setStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
             }
         });
     }
+
     private void play1(){
         try{
             if (player2.isPlaying()) {
@@ -100,6 +104,7 @@ public class VolumeActivity extends AppCompatActivity {
             e.printStackTrace();//输出异常信息
         }
     }
+
     private void play2(){
         try{
             if (player1.isPlaying()) {
@@ -112,7 +117,9 @@ public class VolumeActivity extends AppCompatActivity {
         }catch(Exception e){
             e.printStackTrace();//输出异常信息
         }
-    }private void play3(){
+    }
+
+    private void play3(){
         try{
             if (player1.isPlaying()) {
                 player1.pause();

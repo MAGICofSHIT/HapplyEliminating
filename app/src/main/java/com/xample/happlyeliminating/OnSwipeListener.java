@@ -10,11 +10,13 @@ public class OnSwipeListener implements View.OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         return gestureDetector.onTouchEvent(event);
-    }
+    }   //返回触摸事件是否处理成功
+
     public OnSwipeListener(Context context) {
         // 初始化手势检测器
         gestureDetector = new GestureDetector(context, new GestureListener());
     }
+
     private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
         public static final int SWIPE_THRESOLD =100;
         public static final int SWIPE_VELOCITY_THRESOLD =100;
@@ -35,7 +37,9 @@ public class OnSwipeListener implements View.OnTouchListener {
                     }
                     result = true;
                 }
-            } else if (Math.abs(yDiff) > SWIPE_THRESOLD &&
+            }
+
+            else if (Math.abs(yDiff) > SWIPE_THRESOLD &&
                     Math.abs(velocityY) > SWIPE_VELOCITY_THRESOLD) {
                 if (yDiff > 0) {
                     onSwipeBottom();
