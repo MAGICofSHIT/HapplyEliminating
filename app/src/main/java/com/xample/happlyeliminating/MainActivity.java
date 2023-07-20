@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     int[] candies = {
             R.drawable.bluecandy,
             R.drawable.greencandy,
@@ -36,16 +36,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             R.drawable.redcandy,
     };
     int widthOfBlock,   // 每个糖果图像视图的宽度（以像素为单位）
-        noOfBlocks = 8, // 游戏板中每行（或每列）的糖果块数量
-        widthOfScreen;  // 屏幕的宽度（以像素为单位）
+            noOfBlocks = 8, // 游戏板中每行（或每列）的糖果块数量
+            widthOfScreen;  // 屏幕的宽度（以像素为单位）
     ArrayList<ImageView> candy = new ArrayList<>();     // 存储糖果图像视图的ImageView对象列表
     int candyToBeDragged,   // 被拖动的糖果的标识符（ImageView的ID）
-        candyToBeReplaced;  // 要替换的糖果的标识符（ImageView的ID）
+            candyToBeReplaced;  // 要替换的糖果的标识符（ImageView的ID）
     int notCandy = R.drawable.transparent;  // 空白糖果的图像资源标识符
     Handler mHandler;   // 用于在指定的时间间隔内执行重复的任务
     int interval = 200; // 重复任务的时间间隔（以毫秒为单位）
     TextView scoreResult;   // 显示分数的TextView对象
     int score = 0;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +67,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         createBoard();
 
-        for(final ImageView imageView : candy) {
-            imageView.setOnTouchListener(new OnSwipeListener(this)
-            {
+        for (final ImageView imageView : candy) {    // 遍历存储糖果图像视图的ImageView对象列表，以监听每个imageView的滑动手势事件
+            imageView.setOnTouchListener(new OnSwipeListener(this) {
                 @Override
                 public void onSwipeLeft() {     // 检测到向左滑动的手势
                     super.onSwipeLeft();
@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     candyToBeReplaced = candyToBeDragged - 1;
                     candyInterchange();
                 }
+
                 @Override
                 public void onSwipeRight() {    // 检测到向右滑动的手势
                     super.onSwipeRight();
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     candyToBeReplaced = candyToBeDragged + 1;
                     candyInterchange();
                 }
+
                 @Override
                 public void onSwipeTop() {      // 检测到向上滑动的手势
                     super.onSwipeTop();
@@ -92,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     candyToBeReplaced = candyToBeDragged - noOfBlocks;
                     candyInterchange();
                 }
+
                 @Override
                 public void onSwipeBottom() {   // 检测到向下滑动的手势
                     super.onSwipeBottom();
@@ -99,12 +102,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     candyToBeReplaced = candyToBeDragged + noOfBlocks;
                     candyInterchange();
                 }
-
             });
         }
+
+        // 用于定时重复检查每行每列是否有三个相同颜色的糖果并消除
         mHandler = new Handler();
         startRepeat();
 
+        // 为"重置分数"按钮设置点击事件监听器，用于将游戏分数重置为0
         findViewById(R.id.bt).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,17 +119,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
+    // 检查行
     private void checkRawForThree() {
         for (int i = 0; i < 62; i++) {
             int chosedCandy = (int) candy.get(i).getTag();
-            boolean isBlank = (int)candy.get(i).getTag() == notCandy;
-            Integer[] notValid = {6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55};
-            List<Integer> list = Arrays.asList(notValid);
+            boolean isBlank = (int) candy.get(i).getTag() == notCandy;   // 检查当前位置的糖果是否为空白糖果
+            Integer[] notValid = {6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55};    // 这些位置是不需要进行检查的，即不满足三个相同颜色的糖果消除条件
+            List<Integer> list = Arrays.asList(notValid);   //  将notValid数组转换为List集合，以便后续判断当前位置是否在不需要检查的列表中
             if (!list.contains(i)) {
                 int x = i;
-                if ((int)candy.get(x++).getTag() == chosedCandy && !isBlank &&
-                        (int)candy.get(x++).getTag() == chosedCandy &&
-                        (int)candy.get(x).getTag() == chosedCandy) {
+                if ((int) candy.get(x++).getTag() == chosedCandy && !isBlank &&
+                        (int) candy.get(x++).getTag() == chosedCandy &&
+                        (int) candy.get(x).getTag() == chosedCandy) {
                     score = score + 3;
                     scoreResult.setText(String.valueOf(score));
                     candy.get(x).setImageResource(notCandy);
@@ -144,11 +150,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void checkColumnForThree() {
         for (int i = 0; i < 48; i++) {
             int chosedCandy = (int) candy.get(i).getTag();
-            boolean isBlank = (int)candy.get(i).getTag() == notCandy;
+            boolean isBlank = (int) candy.get(i).getTag() == notCandy;   // 检查当前位置的糖果是否为空白糖果
             int x = i;
-            if ((int)candy.get(x).getTag() == chosedCandy && !isBlank &&
-                    (int)candy.get(x+noOfBlocks).getTag() == chosedCandy &&
-                    (int)candy.get(x+2*noOfBlocks).getTag() == chosedCandy) {
+            if ((int) candy.get(x).getTag() == chosedCandy && !isBlank &&
+                    (int) candy.get(x + noOfBlocks).getTag() == chosedCandy &&
+                    (int) candy.get(x + 2 * noOfBlocks).getTag() == chosedCandy) {
                 score = score + 3;
                 scoreResult.setText(String.valueOf(score));
                 candy.get(x).setImageResource(notCandy);
@@ -165,31 +171,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void moveDownCandies() {
-        Integer[] firstRow = {0,1,2,3,4,5,6,7};
-        List<Integer> list = Arrays.asList(firstRow);
-        for (int i = 55; i >= 0; i--) {
-            if ((int)candy.get(i + noOfBlocks).getTag() == notCandy) {
-                candy.get(i + noOfBlocks).setImageResource((int)candy.get(i).getTag());
+        Integer[] firstRow = {0, 1, 2, 3, 4, 5, 6, 7};
+        List<Integer> list = Arrays.asList(firstRow);   // 将firstRow数组转换为List集合，以便后续判断当前位置是否在第一行
+        for (int i = 55; i >= 0; i--) {// 从倒数第二行开始遍历
+            if ((int) candy.get(i + noOfBlocks).getTag() == notCandy) {  // 判断当前位置下方是否是空白糖果
+                // 将当前糖果往下移动至空白糖果处
+                candy.get(i + noOfBlocks).setImageResource((int) candy.get(i).getTag());
                 candy.get(i + noOfBlocks).setTag(candy.get(i).getTag());
+
+                // 将当前糖果设置为空白糖果
                 candy.get(i).setImageResource(notCandy);
                 candy.get(i).setTag(notCandy);
-                if (list.contains(i) && (int)candy.get(i).getTag() == notCandy) {
-                    int randomColor = (int)Math.floor(Math.random() * candies.length);
+
+                if (list.contains(i) && (int) candy.get(i).getTag() == notCandy) {   // 如果当前位置在第一行，并且下方位置是空白糖果，则表示需要在当前位置生成新的糖果
+                    int randomColor = (int) Math.floor(Math.random() * candies.length);
                     candy.get(i).setImageResource(candies[randomColor]);
                     candy.get(i).setTag(candies[randomColor]);
                 }
             }
         }
+
+        // 再次遍历游戏板的第一行，如果在第一行发现空白糖果，则生成新的糖果填充空缺
         for (int i = 0; i < 8; i++) {
-            if ((int)candy.get(i).getTag() == notCandy) {
-                int randomColor = (int)Math.floor(Math.random() * candies.length);
+            if ((int) candy.get(i).getTag() == notCandy) {
+                int randomColor = (int) Math.floor(Math.random() * candies.length);
                 candy.get(i).setImageResource(candies[randomColor]);
                 candy.get(i).setTag(candies[randomColor]);
             }
         }
-
     }
 
+    // 定时重复执行消除和更新游戏板糖果，即每200ms执行一次run()方法
     Runnable repeatChecker = new Runnable() {
         @Override
         public void run() {
@@ -208,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void candyInterchange() {
+        // 用于实现交换糖果
         int background = (int) candy.get(candyToBeReplaced).getTag();
         int background1 = (int) candy.get(candyToBeDragged).getTag();
         candy.get(candyToBeDragged).setImageResource(background);
@@ -225,19 +238,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         gridLayout.getLayoutParams().width = widthOfScreen;
         gridLayout.getLayoutParams().height = widthOfScreen;
 
-        for (int i = 0; i < noOfBlocks * noOfBlocks; i++) {     // 遍历生成每一个网络块
+        // 遍历生成每一个网络块
+        for (int i = 0; i < noOfBlocks * noOfBlocks; i++) {
             ImageView imageView = new ImageView(this);
             imageView.setId(i);     // 给每一个网络块设定ID
-            imageView.setLayoutParams(new android.view.ViewGroup.LayoutParams(widthOfBlock,widthOfBlock));  // 设置每个网格的布局参数
+            imageView.setLayoutParams(new android.view.ViewGroup.LayoutParams(widthOfBlock, widthOfBlock));  // 设置每个网格的布局参数
 
             // 设定最大的图像视图的高度和宽度
             imageView.setMaxHeight(widthOfBlock);
             imageView.setMaxWidth(widthOfBlock);
 
-            int randonCandy = (int) Math.floor(Math.random() * candies.length);     // 产生一个介于0和candies.length的长度的随机索引，即随机选取一种颜色的糖果的图像资源
-            imageView.setImageResource(candies[randonCandy]);   // 使用随机索引来随机设置糖果的图像资源
-            imageView.setTag(candies[randonCandy]);     // 将标记获取为整数，然后将其存储在整数中
-            candy.add(imageView);
+            // 产生一个介于0和candies.length的长度的随机索引，即随机选取一种颜色的糖果的图像资源
+            int randomCandy = (int) Math.floor(Math.random() * candies.length);
+
+            // 防止在生成糖果时出现一开始就有相邻的连续3个糖果出现
+            if (i % noOfBlocks >= 2) {   // 列数>=2时
+                if (i / noOfBlocks < 2) {    // 行数<2时检测当前糖果是否与当前行前一个糖果相同
+                    while (candies[randomCandy] == (int) candy.get(i - 1).getTag()) {
+                        randomCandy = (int) Math.floor(Math.random() * candies.length);
+                    }
+                } else {      // 行数>=2时检测当前糖果是否与当前行前一个糖果或者当前列前一个糖果相同
+                    while (candies[randomCandy] == (int) candy.get(i - 1).getTag() ||
+                            candies[randomCandy] == (int) candy.get(i - noOfBlocks).getTag()) {
+                        randomCandy = (int) Math.floor(Math.random() * candies.length);
+                    }
+                }
+            } else {  // 列数<2时只需判断竖直方向
+                if (i / noOfBlocks >= 2) {  // 行数>2
+                    while (candies[randomCandy] == (int) candy.get(i - noOfBlocks).getTag()) {
+                        randomCandy = (int) Math.floor(Math.random() * candies.length);
+                    }
+                }
+            }
+
+            imageView.setImageResource(candies[randomCandy]);   // 使用随机索引来随机设置糖果的图像资源
+            imageView.setTag(candies[randomCandy]);     // 将每个imageView的标签设定为糖果的图像资源标识符
+            candy.add(imageView);   // 将设置好图像资源和标签的imageView添加到candy列表中
             gridLayout.addView(imageView);    // 添加视图图像显示
         }
     }
@@ -245,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {     // 点击返回按钮时，如果导航栏是打开状态则关闭导航栏，否则为默认的返回按钮行为
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
@@ -286,7 +322,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // 将文字信息分享到其他应用
             Intent in = new Intent(Intent.ACTION_SEND);
             in.setType("text/plain");
-            in.putExtra(Intent.EXTRA_TEXT,s);
+            in.putExtra(Intent.EXTRA_TEXT, s);
             startActivity(in);
         }
 
