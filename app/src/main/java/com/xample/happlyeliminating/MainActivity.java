@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity implements NavigationView.OnNavigationItemSelectedListener {
     int[] candies = {
             R.drawable.bluecandy,
             R.drawable.greencandy,
